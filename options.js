@@ -3,8 +3,8 @@ const { hideBin } = require('yargs/helpers')
 const argv = yargs(hideBin(process.argv)).argv
 
 let options = {
-    output:'./',
-    input:'./views'
+    output:'',
+    input:'views'
 }
 
 if(argv.output){

@@ -1,14 +1,12 @@
 {
   "name": "router-maker",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.9",
+  "description": "Automatically Create A Front End Router!",
   "main": "index.js",
   "bin": {
-    "router-maker": "node index.js"
+    "router-maker": "./index.js"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/IlayBokobza/router-maker.git"
@@ -23,6 +21,7 @@
   },
   "homepage": "https://github.com/IlayBokobza/router-maker#readme",
   "dependencies": {
+    "app-root-path": "^3.0.0",
     "yargs": "^16.1.1"
   }
 }

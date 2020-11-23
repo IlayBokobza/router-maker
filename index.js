@@ -1,17 +1,19 @@
+#!/usr/bin/env node
 const fs = require('fs')
 const path = require('path')
 
 const options = require('./options')
+const root = require('app-root-path').path;
 
 //gets all html files
-const views = fs.readdirSync(path.join(__dirname,options.input)).filter(file => {
+const views = fs.readdirSync(`${root}/${options.input}`).filter(file => {
     const regEx = /\.html$/
     return regEx.test(file)
 })
 let jsViewsFile = ""
 
 //gets to body from the html files and adds to to the file
-views.map(view => "const " + view.replace(/\.html$/,'') + " = `" + fs.readFileSync(path.join(__dirname,`${options.input}/${view}`)).toString()
+views.map(view => "const " + view.replace(/\.html$/,'') + " = `" + fs.readFileSync(`${root}/${options.input}/${view}`).toString()
 .replace(/\s/g,'')
 .match(/<body>(.*?)<\/body>/g,'').toString()
 .replace(/<body>|<\/body>/g,'')
@@ -74,4 +76,4 @@ window.addEventListener('load', router);`
 
 
 //writes file
-fs.writeFileSync(path.join(__dirname,`${options.output}/router.js`),jsViewsFile)
+fs.writeFileSync(`${root}/${options.output}/router.js`,jsViewsFile)
