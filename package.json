@@ -1,0 +1,28 @@
+{
+  "name": "router-maker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "router-maker": "node index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IlayBokobza/router-maker.git"
+  },
+  "keywords": [
+    "router"
+  ],
+  "author": "Ilay Bokobza",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IlayBokobza/router-maker/issues"
+  },
+  "homepage": "https://github.com/IlayBokobza/router-maker#readme",
+  "dependencies": {
+    "yargs": "^16.1.1"
+  }
+}
