@@ -14,9 +14,9 @@ let jsViewsFile = ""
 
 //gets to body from the html files and adds to to the file
 views.map(view => "const " + view.replace(/\.html$/,'') + " = `" + fs.readFileSync(`${root}/${options.input}/${view}`).toString()
-.replace(/\s/g,'')
-.match(/<body>(.*?)<\/body>/g,'').toString()
+.match(/<body>(.*?)<\/body>/gs,'').toString()
 .replace(/<body>|<\/body>/g,'')
+.trim()
 + "`;")
 .forEach(view => jsViewsFile += `${view}\n`)
 
