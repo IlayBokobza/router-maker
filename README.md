@@ -25,7 +25,7 @@ in package.json
   },
 ```
 
-This will look for html files in a "views" folder inside the root directory, and will output the router at the root directory.
+By default the package will look for html files in a "views" folder inside the root directory, and will output the router at the root directory.
 You can config this behavior by adding some flags.
 
 ```json
