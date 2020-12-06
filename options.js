@@ -6,7 +6,9 @@ var argv = yargs(hideBin(process.argv)).argv;
 var options = {
     output: '',
     input: 'views',
-    watch: false
+    appId: 'app',
+    watch: false,
+    moduleBundler: false
 };
 if (argv.output) {
     options.output = argv.output;
@@ -16,5 +18,11 @@ if (argv.input) {
 }
 if (argv.w) {
     options.watch = true;
+}
+if (argv.packageWithModuleBundler || argv.pwmb) {
+    options.moduleBundler = true;
+}
+if (argv.appId) {
+    options.appId = argv.appId;
 }
 exports["default"] = options;

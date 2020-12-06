@@ -51,9 +51,9 @@ Example:
 ### Creating Router And configuration
 in package.json
 ```json
-  "scripts": {
-    "create-router": "router-maker"
-  },
+"scripts": {
+  "create-router": "router-maker"
+},
 ```
 
 By default the package will look for html files in a "views" folder inside the root directory, and will output the router  file at the root directory.
@@ -61,17 +61,25 @@ By default the package will look for html files in a "views" folder inside the r
 You can config this behavior by adding some flags.
 
 ```json
-  "scripts": {
-    "create-router": "router-maker --input src/views --output public/js"
-  },
+"scripts": {
+  "create-router": "router-maker --input src/views --output public/js"
+},
 ```
-If You would Like to have the router be rewritten on save you can use the watch flag
+You can also change the id of the main div (default "app") You can use the `appId` flag
+
+Example:
 ```json
-  "scripts": {
-    "create-router": "router-maker -w"
-  },
+"scripts": {
+  "create-router": "router-maker --appId MyAppId"
+},
 ```
 
+If You would Like to have the router be rewritten on save you can use the watch flag
+```json
+"scripts": {
+  "create-router": "router-maker -w"
+},
+```
 ### Links
 In order to make links to a different page you will have to write the links slightly different.
 ```html
@@ -84,4 +92,26 @@ In order to make links to a different page you will have to write the links slig
 In order use your to use your new router you will just have to link it to your html like any other javascript file.
 ```html
 <script src="YOUR-PATH-TO-ROUTER/router.js"></script>
+```
+If you would like to package the router with a module bundler you can do so by adding the `packageWithModuleBundler` flag
+
+Example:
+
+In package.json
+```json
+"scripts": {
+  "create-router": "router-maker --packageWithModuleBundler"
+},
+```
+or
+```json
+"scripts": {
+  "create-router": "router-maker --pwmb"
+},
+```
+This will make it so the router.js file will export a function that allows you to use it in another file.
+You can do it like so:
+```js
+import { packageWithModuleBundler } from './router'
+packageWithModuleBundler()
 ```

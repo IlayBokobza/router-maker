@@ -13,7 +13,7 @@ var main = function () {
         var regEx = /\.html$/;
         return regEx.test(file);
     });
-    jsViewsFile = "if(!document.getElementById('app')){\n        document.querySelector('body')?.innerHTML += \"<div id=app></div>\"}\n";
+    jsViewsFile = "if(!document.getElementById('" + options_1["default"].appId + "')){\n        document.querySelector('body').innerHTML += '<div id=\"" + options_1["default"].appId + "\"></div>'}\n";
     //gets to body from the html files and adds to to the file
     try {
         views.map(function (view) { return "const " + view.replace(/\.html$/, '') + " = `" + fs.readFileSync(root + "/" + options_1["default"].input + "/" + view).toString()
@@ -48,7 +48,13 @@ var main = function () {
         jsViewsFile += "        break;\n\n";
     });
     //adds the router logic and closes off the router
-    jsViewsFile += "    }\n}\nconst parseLocation = () => location.hash.slice(1).toLowerCase() || '/';\nconst router = () => {\n    const path = parseLocation();\n    setComponent(path)\n    document.getElementById('app').innerHTML = component;\n};\nwindow.addEventListener('hashchange', router);\nwindow.addEventListener('load', router);";
+    jsViewsFile += "    }\n}\nconst parseLocation = () => location.hash.slice(1).toLowerCase() || '/';\nconst router = () => {\n    const path = parseLocation();\n    setComponent(path)\n    document.getElementById('" + options_1["default"].appId + "').innerHTML = component;\n};";
+    if (options_1["default"].moduleBundler) {
+        jsViewsFile += "\nexport const packageWithModuleBundler = () => {\n    window.addEventListener('hashchange', router);\n    window.addEventListener('load', router);\n}";
+    }
+    else {
+        jsViewsFile += "\nwindow.addEventListener('hashchange', router);\nwindow.addEventListener('load', router);";
+    }
 };
 //if in watch mode
 if (options_1["default"].watch) {

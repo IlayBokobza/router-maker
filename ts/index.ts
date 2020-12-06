@@ -15,8 +15,8 @@ const main = () => {
         return regEx.test(file)
     })
 
-    jsViewsFile = `if(!document.getElementById('app')){
-        document.querySelector('body')?.innerHTML += "<div id=app></div>"}\n`
+    jsViewsFile = `if(!document.getElementById('${options.appId}')){
+        document.querySelector('body').innerHTML += '<div id="${options.appId}"></div>'}\n`
     
     //gets to body from the html files and adds to to the file
     try {
@@ -70,10 +70,19 @@ const parseLocation = () => location.hash.slice(1).toLowerCase() || '/';
 const router = () => {
     const path = parseLocation();
     setComponent(path)
-    document.getElementById('app').innerHTML = component;
-};
+    document.getElementById('${options.appId}').innerHTML = component;
+};`
+if(options.moduleBundler){
+    jsViewsFile += `
+export const packageWithModuleBundler = () => {
+    window.addEventListener('hashchange', router);
+    window.addEventListener('load', router);
+}`
+}else{
+    jsViewsFile += `
 window.addEventListener('hashchange', router);
 window.addEventListener('load', router);`
+}
 }
 
 //if in watch mode

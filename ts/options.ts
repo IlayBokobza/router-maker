@@ -5,11 +5,15 @@ const argv = yargs(hideBin(process.argv)).argv
 let options:{
     output:string,
     input:string,
+    appId:string,
     watch:boolean,
+    moduleBundler:boolean,
 } = {
     output:'',
     input:'views',
-    watch:false
+    appId:'app',
+    watch:false,
+    moduleBundler:false,
 }
 
 if(argv.output){
@@ -22,6 +26,14 @@ if(argv.input){
 
 if(argv.w){
     options.watch = true
+}
+
+if(argv.packageWithModuleBundler || argv.pwmb){
+    options.moduleBundler = true
+}
+
+if(argv.appId){
+    options.appId = argv.appId
 }
 
 export default options 
