@@ -6,7 +6,10 @@
   "bin": {
     "router-maker": "./index.js"
   },
-  "scripts": {},
+  "scripts": {
+    "dev": "tsc ts/index --outdir ./ -w",
+    "build": "tsc ts/index --outdir ./"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/IlayBokobza/router-maker.git"
@@ -22,6 +25,10 @@
   "homepage": "https://github.com/IlayBokobza/router-maker#readme",
   "dependencies": {
     "app-root-path": "^3.0.0",
+    "chalk": "^4.1.0",
     "yargs": "^16.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.10"
   }
 }

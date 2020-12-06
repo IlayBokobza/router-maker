@@ -19,7 +19,7 @@ If a file is named `index.html` it will be found at `YOUR-URL#/`
 
 You html will be rendered into a div with an id of "app"
 
-YOU MUST HAVE THIS DIV OR THE ROUTER WONT WORK!
+If you do not have an a div with an id of "app" it will be automatically be added to the bottom of the body.
 
 Example:
 ```html
@@ -65,6 +65,13 @@ You can config this behavior by adding some flags.
     "create-router": "router-maker --input src/views --output public/js"
   },
 ```
+If You would Like to have the router be rewritten on save you can use the watch flag
+```json
+  "scripts": {
+    "create-router": "router-maker -w"
+  },
+```
+
 ### Links
 In order to make links to a different page you will have to write the links slightly different.
 ```html
