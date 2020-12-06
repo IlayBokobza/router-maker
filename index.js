@@ -2,7 +2,6 @@
 "use strict";
 exports.__esModule = true;
 var fs = require('fs');
-var path = require('path');
 var root = require('app-root-path').path;
 var chalk = require('chalk');
 var options_1 = require("./options");
@@ -51,8 +50,11 @@ var main = function () {
     //adds the router logic and closes off the router
     jsViewsFile += "    }\n}\nconst parseLocation = () => location.hash.slice(1).toLowerCase() || '/';\nconst router = () => {\n    const path = parseLocation();\n    setComponent(path)\n    document.getElementById('app').innerHTML = component;\n};\nwindow.addEventListener('hashchange', router);\nwindow.addEventListener('load', router);";
 };
+//if in watch mode
 if (options_1["default"].watch) {
+    //makes file
     main();
+    //add change listeners for files
     views.forEach(function (fileName) {
         fs.watch(options_1["default"].input + "/" + fileName, function () {
             main();

@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 const fs = require('fs')
-const path = require('path')
 const root = require('app-root-path').path;
 const chalk = require('chalk')
 import options from './options'
@@ -77,9 +76,11 @@ window.addEventListener('hashchange', router);
 window.addEventListener('load', router);`
 }
 
-
+//if in watch mode
 if(options.watch){
+    //makes file
     main()
+    //add change listeners for files
     views.forEach(fileName => {
         fs.watch(`${options.input}/${fileName}`,() => {
             main()

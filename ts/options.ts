@@ -2,7 +2,11 @@ const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers')
 const argv = yargs(hideBin(process.argv)).argv
 
-let options = {
+let options:{
+    output:string,
+    input:string,
+    watch:boolean,
+} = {
     output:'',
     input:'views',
     watch:false
