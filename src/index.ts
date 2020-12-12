@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-const fs = require('fs')
 const root = require('app-root-path').path;
-const chalk = require('chalk')
+import fs from 'fs'
+import chalk from 'chalk'
 import options from './options'
 
 //gets all html files
@@ -9,6 +9,9 @@ let views:string[] = [];
 let jsViewsFile:string = "";
 
 const main = () => {
+
+    //runs error handling
+    require('./errorhandling')
 
     views = fs.readdirSync(`${root}/${options.input}`).filter((file: string) => {
         const regEx = /\.html$/
@@ -20,11 +23,20 @@ const main = () => {
     
     //gets to body from the html files and adds to to the file
     try {
-        views.map(view => "const " + view.replace(/\.html$/,'') + " = `" + fs.readFileSync(`${root}/${options.input}/${view}`).toString()
-        .match(/<body>(.*?)<\/body>/gs,'').toString()
+        let fileVars = views.map(view => "const " + view.replace(/\.html$/,'') + " = `" + fs.readFileSync(`${root}/${options.input}/${view}`).toString()
+        .match(/<body>(.*?)<\/body>/gs)?.toString()
         .replace(/<body>|<\/body>/g,'')
         .trim() + "`")
-        .forEach(view => jsViewsFile += `${view}\n`)
+        
+        fileVars = fileVars.filter(fileVar => !fileVar.match(/`undefined`$/))
+
+        if(fileVars.length <= 0){
+            console.error(chalk.red('Router Maker Error: No html files with a body tag were found'))
+            process.exit()
+        }
+
+        fileVars.forEach(view => jsViewsFile += `${view}\n`)
+        
     }catch{}
     
     

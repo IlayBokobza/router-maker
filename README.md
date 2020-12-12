@@ -48,23 +48,55 @@ Example:
 
 
 ## Usage
-### Creating Router And configuration
-in package.json
+### Starting up
+To begin with make a script in package.json.
 ```json
 "scripts": {
   "create-router": "router-maker"
 },
 ```
 
+This will create a router file but you will probably want to configure it.
 By default the package will look for html files in a "views" folder inside the root directory, and will output the router  file at the root directory.
 
-You can config this behavior by adding some flags.
-
+### Configuration
+#### Method 1: Config File
+The best way to configure the router is with the router config file.
+First create the router config file by writing this script in package.json.
 ```json
 "scripts": {
-  "create-router": "router-maker --input src/views --output public/js"
+  "init-router": "router-maker --init"
 },
 ```
+This will create the config file. The file has comments that explains what each setting does.
+The file look like this.
+```js
+module.exports = {
+    output:'./',              // The path to create the router file
+    input:'./views',          // The path to your html file for your pages
+    appId:'app',              // The id of the div that all the content from your html pages go to
+    moduleBundler:false,      // Change it if you want to package your router with a module bundler
+}
+```
+#### Method 2: Flags
+If you only want some minor configuration or you don't want and extra file you can use flag.
+Note: future features may not be available with flags.
+
+To configure the the location for the input (the folder with all of your html files). You can add the input file
+For Example:
+```json
+"scripts": {
+  "create-router": "router-maker --input src/views"
+},
+```
+
+If you want to change the location of the generated router file you can add the output flag.
+```json
+"scripts": {
+  "create-router": "router-maker --output public/js"
+},
+```
+
 You can also change the id of the main div (default "app") You can use the `appId` flag
 
 Example:
@@ -93,10 +125,9 @@ In order use your to use your new router you will just have to link it to your h
 ```html
 <script src="YOUR-PATH-TO-ROUTER/router.js"></script>
 ```
-If you would like to package the router with a module bundler you can do so by adding the `packageWithModuleBundler` flag
+If you would like to package the router with a module bundler you can configure it in the router config file, or adding the `packageWithModuleBundler` flag
 
 Example:
-
 In package.json
 ```json
 "scripts": {
