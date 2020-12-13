@@ -28,6 +28,7 @@ Example:
 <head></head>
 <body>
     <div id="app"></div>
+    <script src="YOUR-PATH-TO-ROUTER/router.js"></script>
 </body>
 </html>
 ```
@@ -42,6 +43,7 @@ Example:
 <body>
     <h1>I Will Be Here On Every Page.<h1>
     <div id="app"></div>
+    <script src="YOUR-PATH-TO-ROUTER/router.js"></script>
 </body>
 </html>
 ```
