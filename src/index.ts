@@ -19,16 +19,22 @@ const main = () => {
     })
 
     jsViewsFile = `if(!document.getElementById('${options.appId}')){
-        document.querySelector('body').innerHTML += '<div id="${options.appId}"></div>'}\n`
+        document.querySelector('body').innerHTML += '<div id="${options.appId}"></div>'};\n`
     
     //gets to body from the html files and adds to to the file
     try {
         let fileVars = views.map(view => "const " + view.replace(/\.html$/,'') + " = `" + fs.readFileSync(`${root}/${options.input}/${view}`).toString()
         .match(/<body>(.*?)<\/body>/gs)?.toString()
         .replace(/<body>|<\/body>/g,'')
-        .trim() + "`")
+        .replace(/(\r\n|\n|\r)/gm,"").trim() + "`;")
         
-        fileVars = fileVars.filter(fileVar => !fileVar.match(/`undefined`$/))
+        fileVars = fileVars.filter((fileVar,index) => {
+            if(/`undefined`$/.test(fileVar)){
+                views.splice(index,1)
+                return false
+            }
+            return true
+        })
 
         if(fileVars.length <= 0){
             console.error(chalk.red('Router Maker Error: No html files with a body tag were found'))
@@ -71,48 +77,71 @@ const setComponent = (path) => {
     //ands a case for each view
     routes.forEach(route => {
         jsViewsFile += "        case '" + route.path + "':\n"
-        jsViewsFile += `        component = ${route.component}\n`
+        jsViewsFile += `        component = ${route.component};\n`
         jsViewsFile += "        break;\n\n"
     })
     
-    //adds the router logic and closes off the router
-    jsViewsFile += `    }
-}
+    jsViewsFile += '    };\n};'
+
+    //active link class adder function
+    if(options.addClassToActiveLinks) jsViewsFile += `\nconst setLinks = (path) => {
+        const links = [...document.querySelectorAll('a')];
+        links.forEach(link => link.classList.remove('${options.activeLinksClass}'));
+        links.filter(link => link.hash.replace(/#/,'') === path).forEach(link => link.classList.add('${options.activeLinksClass}'));
+    }`
+
+    //adds the router logic
+    jsViewsFile += `
 const parseLocation = () => location.hash.slice(1).toLowerCase() || '/';
 const router = () => {
     const path = parseLocation();
-    setComponent(path)
+    setComponent(path);\n`
+
+    //calls the function thats add classes to active links
+    if(options.addClassToActiveLinks) jsViewsFile += `    setLinks(path);`
+
+    jsViewsFile += `
     document.getElementById('${options.appId}').innerHTML = component;
 };`
-if(options.moduleBundler){
-    jsViewsFile += `
+
+    // if user wants to package with moudle bundlers
+    if(options.moduleBundler){
+        jsViewsFile += `
 export const packageWithModuleBundler = () => {
     window.addEventListener('hashchange', router);
     window.addEventListener('load', router);
-}`
-}else{
-    jsViewsFile += `
+};`
+    // if not
+    }else{
+        jsViewsFile += `
 window.addEventListener('hashchange', router);
 window.addEventListener('load', router);`
-}
+    }
+
+    //concat file if user wants
+    if(options.concatFile) jsViewsFile = jsViewsFile.replace(/(\r\n|\n|\r)/gm,"")
 }
 
-//if in watch mode
-if(options.watch){
-    //makes file
-    main()
-    //add change listeners for files
-    views.forEach(fileName => {
-        fs.watch(`${options.input}/${fileName}`,() => {
-            main()
-            //writes file
-            fs.writeFileSync(`${root}/${options.output}/router.js`,jsViewsFile)
-            console.log(chalk.green('Change Detected. Writing File'))
+const startUp = async () => {
+    //if in watch mode
+    if(options.watch){
+        //makes file
+        main()
+        //add change listeners for files
+        views.forEach(fileName => {
+            fs.watch(`${options.input}/${fileName}`,() => {
+                main()
+                //writes file
+                fs.writeFileSync(`${root}/${options.output}/router.js`,jsViewsFile)
+                console.log(chalk.green('Change Detected. Writing File'))
+            })
         })
-    })
-}else{
-    main()
-    //writes file
-    console.log(chalk.green('Writing file'))
-    fs.writeFileSync(`${root}/${options.output}/router.js`,jsViewsFile)
+    }else{
+        main()
+        //writes file
+        fs.writeFileSync(`${root}/${options.output}/router.js`,jsViewsFile)
+        console.log(chalk.green('Writing file'))
+    }
 }
+
+startUp()

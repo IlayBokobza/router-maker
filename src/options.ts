@@ -20,6 +20,9 @@ let options:{
     appId:string,
     watch:boolean,
     moduleBundler:boolean,
+    addClassToActiveLinks:boolean,
+    activeLinksClass:string,
+    concatFile:boolean
 };
 
 if(fs.existsSync(`${rootPath}/routerconfig.js`)){
@@ -29,6 +32,9 @@ if(fs.existsSync(`${rootPath}/routerconfig.js`)){
     if(!options.input) options.input = './views'
     if(!options.appId) options.appId = 'app'
     if(!options.moduleBundler) options.moduleBundler = false
+    if(!options.addClassToActiveLinks) options.addClassToActiveLinks = false
+    if(!options.activeLinksClass) options.activeLinksClass = 'active'
+    if(!options.concatFile) options.concatFile = false
 
 }else{
     options = {
@@ -37,6 +43,9 @@ if(fs.existsSync(`${rootPath}/routerconfig.js`)){
         appId:'app',
         watch:false,
         moduleBundler:false,
+        addClassToActiveLinks:false,
+        activeLinksClass:'active',
+        concatFile:false
     }
     
     //output path

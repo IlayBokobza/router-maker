@@ -74,15 +74,19 @@ This will create the config file. The file has comments that explains what each 
 The file look like this.
 ```js
 module.exports = {
-    output:'./',              // The path to create the router file
-    input:'./views',          // The path to your html file for your pages
-    appId:'app',              // The id of the div that all the content from your html pages go to
-    moduleBundler:false,      // Change it if you want to package your router with a module bundler
+    output:'./',                    // The path to create the router file
+    input:'./views',                // The path to your html file for your pages
+    appId:'app',                    // The id of the div that all the content from your html pages go to
+    moduleBundler:false,            // Change it if you want to package your router with a module bundler
+    addClassToActiveLinks:false,    // If set to true will add a class to active links
+    activeLinksClass:'active',      // The class which will be added to active links
+    concatFile:false                // If set to true will make the router file into one line
 }
 ```
 #### Method 2: Flags
 If you only want some minor configuration or you don't want and extra file you can use flag.
-Note: future features may not be available with flags.
+
+#### Note: future features and some current ones may not be available with flags.
 
 To configure the the location for the input (the folder with all of your html files). You can add the input file
 For Example:

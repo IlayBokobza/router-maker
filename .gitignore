@@ -1,9 +1,8 @@
 node_modules
-# compiled typescript
-public
 # testing
 test
 views
 pages
 router.js
 routerconfig.js
+main.html

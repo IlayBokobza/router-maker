@@ -12,12 +12,12 @@ const error = (message:string) => {
 
 //checks for input path
 if(!fs.existsSync(options.input)){
-    error('Invalid input path.')
+    error(`Input path ${path.resolve(root + '/' + options.input)} not found.`)
 }
 
 //checks for output path
 if(!fs.existsSync(options.output)){
-    error('Invalid output path.')
+    error(`Output path ${path.resolve(root + '/' + options.output)} not found.`)
 }
 
 //checks if no html files in input dir
