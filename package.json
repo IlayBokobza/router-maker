@@ -1,6 +1,6 @@
 {
   "name": "router-maker",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "description": "Automatically Create A Front End Router!",
   "main": "public/index.js",
   "bin": {
